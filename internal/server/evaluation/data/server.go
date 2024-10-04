@@ -200,6 +200,7 @@ func (srv *Server) EvaluationSnapshotNamespace(ctx context.Context, r *evaluatio
 				Type:        toEvaluationFlagType(f.Type),
 				CreatedAt:   f.CreatedAt,
 				UpdatedAt:   f.UpdatedAt,
+				Variants:    make([]*evaluation.EvaluationVariant, 0, len(f.Variants)),
 			}
 
 			flagKey := storage.NewResource(namespaceKey, f.Key, storage.WithReference(reference))
@@ -216,6 +217,14 @@ func (srv *Server) EvaluationSnapshotNamespace(ctx context.Context, r *evaluatio
 							Attachment: f.DefaultVariant.Attachment,
 						}
 					}
+				}
+
+				for i := range f.Variants {
+					flag.Variants = append(flag.Variants, &evaluation.EvaluationVariant{
+						Id:         f.Variants[i].Id,
+						Key:        f.Variants[i].Key,
+						Attachment: f.Variants[i].Attachment,
+					})
 				}
 
 				rules, err := srv.store.GetEvaluationRules(ctx, flagKey)

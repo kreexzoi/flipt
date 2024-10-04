@@ -177,6 +177,7 @@ message EvaluationFlag {
   repeated EvaluationRule rules = 8;
   repeated EvaluationRollout rollouts = 9;
   optional EvaluationVariant default_variant = 10;
+  repeated EvaluationVariant variants = 11;
 }
 
 enum EvaluationConstraintComparisonType {
